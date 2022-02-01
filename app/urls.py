@@ -19,7 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('auth/', include('dj_rest_auth.urls')),
-    path('auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/', include('post.urls')),
     path('admin/', admin.site.urls),
-] + static(settings.STATIC_URL)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
