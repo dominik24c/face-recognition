@@ -1,8 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {getToken, setToken} from "../../utils/auth";
+import {URL} from "../../utils/constants";
 
 export const signUpUser = createAsyncThunk(
-    'auth/signUpUser',
+    'slices/signUpUser',
     async (arg, {getState, extra}) => {
         const data = {
             username: arg.username,
@@ -18,7 +20,7 @@ export const signUpUser = createAsyncThunk(
     });
 
 export const loginUser = createAsyncThunk(
-    'auth/loginUser',
+    'slices/loginUser',
     async (arg, {getState, extra}) => {
         return axios.post(`${URL}/auth/login/`, arg, {
             crossDomain: true
@@ -36,8 +38,8 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        isAuthenticated:(state,action)=>{
-            return !!state.token;
+        setTokenFromLocalStorage: (state, action) => {
+            state.token = getToken();
         }
     },
     extraReducers: {
@@ -47,11 +49,12 @@ const authSlice = createSlice({
         [signUpUser.fulfilled]: (state, action) => {
             state.signUpStatus = 'success';
             state.token = action.payload.key;
+            setToken(state.token);
         },
         [signUpUser.rejected]: (state, action) => {
             state.signUpStatus = 'error';
             const payload = action.payload
-            if(payload && payload.username){
+            if (payload && payload.username) {
                 state.signUpErrorMessage = payload.username.join(', ');
             }
         },
@@ -62,6 +65,7 @@ const authSlice = createSlice({
         [loginUser.fulfilled]: (state, action) => {
             state.loginStatus = 'success';
             state.token = action.payload.key;
+            setToken(state.token);
         },
         [loginUser.rejected]: (state, action) => {
             state.loginStatus = 'error';
@@ -70,6 +74,6 @@ const authSlice = createSlice({
     }
 })
 
-export const {isAuthenticated} = authSlice.actions;
+export const {setTokenFromLocalStorage} = authSlice.actions;
 
 export default authSlice.reducer;

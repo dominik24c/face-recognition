@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, FormControl, Input, InputLabel, Typography} from "@mui/material";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {loginUser} from "../../store/auth/auth";
+import {loginUser} from "../../store/slices/auth";
 import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../UI/ErrorMessage";
 
@@ -44,7 +44,7 @@ const LoginPage = () => {
                     <Input type="password" {...register('password', {required: 'This field is required!'})}/>
                 </FormControl>
                 <br/>
-                <Button type="submit" variant="contained">Login</Button>
+                <Button type="submit" variant="contained" style={{marginTop:"1rem"}}>Login</Button>
             </form>
         </>
     );

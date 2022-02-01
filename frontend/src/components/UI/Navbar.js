@@ -2,10 +2,11 @@ import React from 'react';
 import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import LOGO from '../../img/logo.png';
-import {isAuthenticated} from "../../store/auth/auth";
+import {useSelector} from "react-redux";
 
 const Navbar = (props) => {
-    const isAuth = isAuthenticated();
+    const token = useSelector(state => state.auth.token);
+    const isAuth = !!token;
     console.log(isAuth);
     return (
         <AppBar position="static" style={{
@@ -18,16 +19,31 @@ const Navbar = (props) => {
                     </NavLink>
                 </IconButton>
                 <Box flexGrow={1}/>
-                <NavLink to='/signup'>
-                    <IconButton>
-                        <Typography variant="h6" style={{color: "white"}}>Sign Up</Typography>
-                    </IconButton>
-                </NavLink>
-                <NavLink to='/login'>
-                    <IconButton>
-                        <Typography variant="h6" style={{color: "white"}}>Login</Typography>
-                    </IconButton>
-                </NavLink>
+                {!isAuth && <>
+                    <NavLink to='/signup'>
+                        <IconButton>
+                            <Typography variant="h6" style={{color: "white"}}>Sign Up</Typography>
+                        </IconButton>
+                    </NavLink>
+                    <NavLink to='/login'>
+                        <IconButton>
+                            <Typography variant="h6" style={{color: "white"}}>Login</Typography>
+                        </IconButton>
+                    </NavLink>
+                </>
+                }
+                {isAuth && <>
+                    <NavLink to='/posts/create'>
+                        <IconButton>
+                            <Typography variant="h6" style={{color: "white"}}>Create Post</Typography>
+                        </IconButton>
+                    </NavLink>
+                    <NavLink to='/posts'>
+                        <IconButton>
+                            <Typography variant="h6" style={{color: "white"}}>Posts</Typography>
+                        </IconButton>
+                    </NavLink>
+                </>}
             </Toolbar>
         </AppBar>
     );

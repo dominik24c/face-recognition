@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, FormControl, Input, InputLabel, Typography} from "@mui/material";
 import {useForm} from "react-hook-form";
 
-import {signUpUser} from '../../store/auth/auth';
+import {signUpUser} from '../../store/slices/auth';
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../UI/ErrorMessage";
@@ -38,7 +38,7 @@ const SignUpPage = () => {
                     <InputLabel>Username:</InputLabel>
                     <Input id="username"
                            {...register('username', {
-                               required: "This field is required",
+                               required: "This field is required!",
                            })}/>
                 </FormControl>
                 <br/>
@@ -46,7 +46,7 @@ const SignUpPage = () => {
                 <FormControl variant="standard">
                     <InputLabel>Email:</InputLabel>
                     <Input type="email" id="email" {...register('email', {
-                        required: "This field is required",
+                        required: "This field is required!",
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                             message: "invalid email address"
@@ -59,7 +59,7 @@ const SignUpPage = () => {
                     <InputLabel>Password:</InputLabel>
                     <Input type="password" id="password" {
                         ...register('password', {
-                            required: "This field is required", minLength: 8
+                            required: "This field is required!", minLength: 8
                         })
                     }/>
                 </FormControl>
@@ -68,12 +68,12 @@ const SignUpPage = () => {
                 <FormControl variant="standard">
                     <InputLabel>Confirm password:</InputLabel>
                     <Input type="password" id="confirm_password" {...register('confirm_password', {
-                        required: "This field is required", minLength: 8,
+                        required: "This field is required!", minLength: 8,
                         validate: (value) => value === watch('password')
                     })}/>
                 </FormControl>
                 <br/>
-                <Button type="submit" variant="contained">Sign Up</Button>
+                <Button type="submit" variant="contained" style={{marginTop:"1rem"}}>Sign Up</Button>
             </form>
         </>
     );
