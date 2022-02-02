@@ -142,15 +142,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = BASE_DIR / 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = 'media/'
+# MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
+"""Uploading image settings"""
 MIN_UPLOAD_SIZE = 2_048  # 2 KB |1kb
 MAX_UPLOAD_SIZE = 5_242_880  # 5 MB |6MB
 ALLOWED_IMAGE_EXTENSIONS = ('gif', 'bmp', 'png', 'jpeg', 'jpg')
@@ -159,12 +160,15 @@ MIN_WIDTH = 500
 MAX_HEIGHT = 1080
 MAX_WIDTH = 1920
 
-# AZURE_FACE_API_KEY = os.environ.get('AZURE_FACE_API_KEY')
-# AZURE_FACE_API_ENDPOINT = os.environ.get('AZURE_FACE_API_ENDPOINT')
+"""Azure face api settings"""
+AZURE_FACE_API_KEY = os.environ.get('AZURE_FACE_API_KEY')
+AZURE_FACE_API_ENDPOINT = os.environ.get('AZURE_FACE_API_ENDPOINT')
 
-# DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
+"""Azure blob storage settings"""
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 
-# PICTURES_FOLDER = 'image'
-# AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')
-# AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-# MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{PICTURES_FOLDER}/'
+AZURE_CONTAINER = 'pictures'
+AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY')
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_CONTAINER}/'

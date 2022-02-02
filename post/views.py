@@ -1,24 +1,45 @@
+from pprint import pprint
+
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
+from django.conf import settings
+from face_recognition.azure_face_api import fetch_recognized_faces_by_face_api_client
+from face_recognition.utils import save_recognized_faces_to_db
 
 from .models import Post
 from .serializers import PostSerializer
 
 
+def get_posts(queryset) -> Response:
+    serializer = PostSerializer(queryset, many=True)
+    pprint(serializer.data)
+    return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-def posts_api_view(request: Request) -> Response:
+def posts_view(request: Request) -> Response:
     if request.method == 'GET':
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return get_posts(Post.objects.all())
     elif request.method == 'POST':
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
-            Post.objects.create(**serializer.validated_data, owner=request.user)
+            post = serializer.save(owner=request.user)
+            image_url=f'{settings.MEDIA_URL}{post.post_picture}'
+            pprint(image_url)
+            recognized_faces = fetch_recognized_faces_by_face_api_client(image_url)
+            pprint(recognized_faces)
+            save_recognized_faces_to_db(recognized_faces, post)
             return Response({"message": "Post was created!"}, status=status.HTTP_201_CREATED)
         else:
-            return Response({"error": serializer.errors}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_posts_view(request: Request) -> Response:
+    if request.method == 'GET':
+        return get_posts(Post.objects.filter(owner=request.user))

@@ -1,7 +1,8 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator, FileExtensionValidator
 from django.db import models
-from django.conf import settings
+
 from .utils import post_image_upload_handler, validate_image
 
 
@@ -16,6 +17,9 @@ class Post(models.Model):
                                      blank=True, null=True)
     is_recognized = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
