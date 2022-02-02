@@ -43,6 +43,11 @@ const Navbar = (props) => {
                             <Typography variant="h6" style={{color: "white"}}>Posts</Typography>
                         </IconButton>
                     </NavLink>
+                    <NavLink to='/user-posts'>
+                        <IconButton>
+                            <Typography variant="h6" style={{color: "white"}}>Your Posts</Typography>
+                        </IconButton>
+                    </NavLink>
                 </>}
             </Toolbar>
         </AppBar>

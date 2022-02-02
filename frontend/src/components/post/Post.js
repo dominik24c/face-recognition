@@ -7,24 +7,24 @@ import CardMedia from '@mui/material/CardMedia';
 import {HOSTNAME} from "../../utils/constants";
 
 const Post = (props) => {
-    return (<Grid item xs={6} sm={4}>
-            <Card sx={{maxWidth: 300}}>
-                <CardMedia
-                    component="img"
-                    alt={props.title}
-                    height="200"
-                    image={`${HOSTNAME}${props.post_picture}`}
-                />
-                <CardContent>
-                    <Typography variant="h6">{props.title}</Typography>
-                    <Typography variant="p">{props.description}</Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="medium">Read</Button>
-                </CardActions>
+    return (<Grid item xs={6} md={4}>
+        <Card sx={{maxWidth: 300}}>
+            <CardMedia
+                component="img"
+                alt={props.title}
+                height="200"
+                image={props.post_picture}
+            />
+            <CardContent>
+                <Typography variant="h6">{props.title}</Typography>
+                <Typography variant="p">{props.description}</Typography>
+            </CardContent>
+            <CardActions>
+                <Button size="medium">{props.buttonName}</Button>
+            </CardActions>
 
-            </Card>
-        </Grid>);
+        </Card>
+    </Grid>);
 }
 
 export default Post;

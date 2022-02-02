@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getPosts} from "../../store/slices/post";
 import Post from "./Post";
 import {Grid} from "@mui/material";
 
-const PostList = () => {
+const PostList = (props) => {
     const dispatch = useDispatch();
     const posts = useSelector(state => state.post.posts);
+    const func = props.func;
 
     useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch]);
+        dispatch(func());
+    }, [dispatch, func]);
 
     const renderPosts = () => {
         return posts.map(post => {
@@ -18,6 +18,7 @@ const PostList = () => {
                          post_picture={post.post_picture}
                          title={post.title}
                          description={post.description}
+                         buttonName={props.buttonName}
             />
         })
 

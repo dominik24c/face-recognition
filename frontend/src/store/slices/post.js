@@ -6,9 +6,7 @@ import {URL} from "../../utils/constants";
 export const getPosts = createAsyncThunk(
     'post/getPost',
     async (arg, {getState, extra}) => {
-        console.log(getState().auth)
         const token = getState().auth.token;
-        console.log(token);
         return axios.get(`${URL}/posts/`, {
             crossDomain: true, headers: {
                 ...authHeader(token)
@@ -16,6 +14,19 @@ export const getPosts = createAsyncThunk(
         }).then(response => response.data);
     }
 )
+
+export const getUserPosts = createAsyncThunk(
+    'post/getUserPosts',
+    async (arg, {getState, extra}) => {
+        const token = getState().auth.token;
+        return axios.get(`${URL}/user-posts/`, {
+            crossDomain: true, headers: {
+                ...authHeader(token)
+            }
+        }).then(response => response.data);
+    }
+)
+
 
 export const createPost = createAsyncThunk(
     'post/createPost',
@@ -53,6 +64,18 @@ const postSlice = createSlice({
             state.posts = action.payload;
         },
         [getPosts.rejected]: (state, action) => {
+            state.status = 'error';
+            console.log(action);
+        },
+        [getUserPosts.pending]: (state, action) => {
+            state.status = 'sending';
+        },
+        [getUserPosts.fulfilled]: (state, action) => {
+            state.status = 'success';
+            console.log(action.payload);
+            state.posts = action.payload;
+        },
+        [getUserPosts.rejected]: (state, action) => {
             state.status = 'error';
             console.log(action);
         }

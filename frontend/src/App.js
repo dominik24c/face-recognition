@@ -7,9 +7,10 @@ import HomePage from "./components/post/Home";
 import {Container} from "@mui/material";
 import Navbar from "./components/UI/Navbar";
 import PostCreate from "./components/post/PostCreate";
-import PostList from "./components/post/PostList";
 import {useDispatch} from "react-redux";
 import {setTokenFromLocalStorage} from "./store/slices/auth";
+import AllPosts from "./components/post/AllPosts";
+import UserPosts from "./components/post/UserPosts";
 
 function App() {
     const dispatch = useDispatch();
@@ -25,7 +26,8 @@ function App() {
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/posts/create" element={<PostCreate/>}/>
-                    <Route path="/posts" element={<PostList/>}/>
+                    <Route path="/posts" element={<AllPosts/>}/>
+                    <Route path="/user-posts" element={<UserPosts/>}/>
                     <Route path='*' exact element={<NotFoundPage/>}/>
                 </Routes>
             </Container>
