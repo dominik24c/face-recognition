@@ -4,7 +4,7 @@ import {getToken, setToken} from "../../utils/auth";
 import {URL} from "../../utils/constants";
 
 export const signUpUser = createAsyncThunk(
-    'slices/signUpUser',
+    'auth/signUpUser',
     async (arg, {getState, extra}) => {
         const data = {
             username: arg.username,

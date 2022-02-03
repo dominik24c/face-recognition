@@ -11,6 +11,8 @@ import {useDispatch} from "react-redux";
 import {setTokenFromLocalStorage} from "./store/slices/auth";
 import AllPosts from "./components/post/AllPosts";
 import UserPosts from "./components/post/UserPosts";
+import PostEdit from "./components/post/PostEdit";
+import PostDetail from "./components/post/PostDetail";
 
 function App() {
     const dispatch = useDispatch();
@@ -27,7 +29,9 @@ function App() {
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/posts/create" element={<PostCreate/>}/>
                     <Route path="/posts" element={<AllPosts/>}/>
+                    <Route path="/posts/:postId" element={<PostDetail/>}/>
                     <Route path="/user-posts" element={<UserPosts/>}/>
+                    <Route path="/user-posts/:postId" element={<PostEdit/>}/>
                     <Route path='*' exact element={<NotFoundPage/>}/>
                 </Routes>
             </Container>
