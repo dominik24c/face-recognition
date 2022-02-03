@@ -19,10 +19,10 @@ def validate_image(image_file):
                               f"and {settings.MAX_UPLOAD_SIZE}B!")
 
     width, height = get_image_dimensions(image_file)
-    if not (settings.MIN_WIDTH < width < settings.MAX_WIDTH):
+    if not (settings.MIN_WIDTH <= width <= settings.MAX_WIDTH):
         raise ValidationError(f'The image width should be between {settings.MIN_WIDTH} '
                               f'and {settings.MAX_WIDTH}')
 
-    if not (settings.MIN_HEIGHT < height < settings.MAX_HEIGHT):
+    if not (settings.MIN_HEIGHT <= height <= settings.MAX_HEIGHT):
         raise ValidationError(f'The image height should be between {settings.MIN_HEIGHT} '
                               f'and {settings.MAX_HEIGHT}')
