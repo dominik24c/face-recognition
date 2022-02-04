@@ -1,18 +1,20 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {URL} from "../../utils/constants";
-import {authHeader} from "../../utils/auth";
 
 export const editPost = createAsyncThunk(
     'editPost/getPost',
     async (arg, {getState, extra}) => {
-        const token = getState().auth.token;
-        return axios.get(`${URL}/user-posts/${arg}`, {
-            headers: {
-                ...authHeader(token)
-            },
-            crossDomain: true,
-        }).then(response => response.data);
+        return axios.get(`${URL}/user-posts/${arg}`)
+            .then(response => response.data);
+    }
+);
+
+export const saveTagName = createAsyncThunk(
+    'editPost/getPost',
+    async (arg, {getState, extra}) => {
+        return axios.get(`${URL}/user-posts/${arg}/tag-name`)
+            .then(response => response.data);
     }
 );
 

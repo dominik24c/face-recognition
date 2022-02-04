@@ -14,17 +14,14 @@ export const signUpUser = createAsyncThunk(
         }
         console.log(data);
 
-        return axios.post(`${URL}/auth/registration/`, data, {
-            crossDomain: true
-        }).then(response => response.data);
+        return axios.post(`${URL}/auth/registration/`, data)
+            .then(response => response.data);
     });
 
 export const loginUser = createAsyncThunk(
     'slices/loginUser',
     async (arg, {getState, extra}) => {
-        return axios.post(`${URL}/auth/login/`, arg, {
-            crossDomain: true
-        }).then(response => response.data);
+        return axios.post(`${URL}/auth/login/`, arg).then(response => response.data);
     }
 )
 const initialState = {

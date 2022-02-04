@@ -6,24 +6,16 @@ import {URL} from "../../utils/constants";
 export const getPosts = createAsyncThunk(
     'post/getPost',
     async (arg, {getState, extra}) => {
-        const token = getState().auth.token;
-        return axios.get(`${URL}/posts/`, {
-            crossDomain: true, headers: {
-                ...authHeader(token)
-            }
-        }).then(response => response.data);
+        return axios.get(`${URL}/posts/`)
+            .then(response => response.data);
     }
 )
 
 export const getUserPosts = createAsyncThunk(
     'post/getUserPosts',
     async (arg, {getState, extra}) => {
-        const token = getState().auth.token;
-        return axios.get(`${URL}/user-posts/`, {
-            crossDomain: true, headers: {
-                ...authHeader(token)
-            }
-        }).then(response => response.data);
+        return axios.get(`${URL}/user-posts/`)
+            .then(response => response.data);
     }
 )
 
@@ -38,7 +30,7 @@ export const createPost = createAsyncThunk(
         formData.append('post_picture', arg.post_picture);
 
         return axios.post(`${URL}/posts/`, formData, {
-            crossDomain: true, headers: {
+            headers: {
                 ...authHeader(token)
             }
         }).then(response => response.data);
