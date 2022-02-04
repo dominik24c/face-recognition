@@ -18,9 +18,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+API ='api'
+
 urlpatterns = [
-    path('api/auth/', include('dj_rest_auth.urls')),
-    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('api/', include('post.urls')),
+    path(f'{API}/auth/', include('dj_rest_auth.urls')),
+    path(f'{API}/auth/registration/', include('dj_rest_auth.registration.urls')),
+    path(f'{API}/', include('post.urls')),
+    path(f'{API}/face-recognition/', include('face_recognition.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
