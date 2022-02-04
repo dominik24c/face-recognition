@@ -1,17 +1,24 @@
-import React from "react";
-import {Button, FormControl, Input, InputLabel} from "@mui/material";
+import React, {useEffect} from "react";
+import {Button, FormControl, Input, InputLabel, Typography} from "@mui/material";
 import {useForm} from "react-hook-form";
 import ErrorMessage from "../UI/ErrorMessage";
 import {useDispatch} from "react-redux";
 
 const TagNameForm = (props) => {
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const dispatch = useDispatch();
+    const id = props.id;
 
     const saveTagNameHandler = (data) => {
         console.log(data);
         // dispatch()
     }
+
+    useEffect(()=>{
+        reset();
+    },[reset, id])
+
+    console.log(props.tagName);
 
     return (
         <form onSubmit={handleSubmit(saveTagNameHandler)}>
@@ -28,7 +35,8 @@ const TagNameForm = (props) => {
             <Button variant="contained"
                     style={{marginTop: 10}}
                     type="submit"
-            >Save Tag</Button>
+                    >Save Tag</Button>
+            <Typography variant="h6">{id}</Typography>
         </form>
     );
 }
