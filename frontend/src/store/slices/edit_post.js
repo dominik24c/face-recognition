@@ -11,9 +11,9 @@ export const editPost = createAsyncThunk(
 );
 
 export const saveTagName = createAsyncThunk(
-    'editPost/getPost',
+    'editPost/saveTagName',
     async (arg, {getState, extra}) => {
-        return axios.get(`${URL}/user-posts/${arg}/tag-name`)
+        return axios.post(`${URL}/face-recognition/tag-name/${arg.id}/`, arg.data)
             .then(response => response.data);
     }
 );
@@ -37,6 +37,21 @@ const editPostSlice = createSlice({
             state.status = 'sending';
         },
         [editPost.rejected]: (state, action) => {
+            state.status = 'error';
+        },
+        [saveTagName.fulfilled]: (state, action) => {
+            state.status = 'success';
+            // Update post
+            const id = action.payload.id
+            const face = state.post.recognized_faces.find(f => f.id === id);
+            if (face) {
+                face.tag_name = action.payload.tag_name;
+            }
+        },
+        [saveTagName.pending]: (state, action) => {
+            state.status = 'sending';
+        },
+        [saveTagName.rejected]: (state, action) => {
             state.status = 'error';
         }
     }

@@ -13,7 +13,7 @@ const Canvas = (props) => {
     const [cursorIsOnThePicture, setCursorIsOnThePicture] = useState(C_IMAGE);
     const [widthRatio, setWidthRatio] = useState(0);
     const [heightRatio, setHeightRatio] = useState(0);
-
+    console.log(post)
     const getContext = () => {
         return canvas.current.getContext('2d');
     }
@@ -79,7 +79,6 @@ const Canvas = (props) => {
     const mouseMoveHandler = (e) => {
         const face = cursorIsOnTheFace(e)
         if (face && cursorIsOnThePicture === C_IMAGE) {
-            e.stopPropagation();
             const ctx = getContext();
             const faceSize = getSizeOfFace(face);
             console.log("FACE " + face.id)

@@ -3,22 +3,22 @@ import {Button, FormControl, Input, InputLabel, Typography} from "@mui/material"
 import {useForm} from "react-hook-form";
 import ErrorMessage from "../UI/ErrorMessage";
 import {useDispatch} from "react-redux";
+import {saveTagName} from "../../store/slices/edit_post";
 
-const TagNameForm = (props) => {
+const TagNameForm = ({id, tagName}) => {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const dispatch = useDispatch();
-    const id = props.id;
 
     const saveTagNameHandler = (data) => {
-        console.log(data);
-        // dispatch()
+        dispatch(saveTagName({id, data}));
     }
 
-    useEffect(()=>{
-        reset();
-    },[reset, id])
+    useEffect(() => {
+        reset({
+            tag_name: tagName
+        });
+    }, [reset, tagName])
 
-    console.log(props.tagName);
 
     return (
         <form onSubmit={handleSubmit(saveTagNameHandler)}>
@@ -29,13 +29,13 @@ const TagNameForm = (props) => {
                     {...register('tag_name', {
                         required: 'This field is required!'
                     })}
-                    defaultValue={props.tagName || ''}/>
+                    defaultValue={tagName || ''}/>
             </FormControl>
             <br/>
             <Button variant="contained"
                     style={{marginTop: 10}}
                     type="submit"
-                    >Save Tag</Button>
+            >Save Tag</Button>
             <Typography variant="h6">{id}</Typography>
         </form>
     );
