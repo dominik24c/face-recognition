@@ -5,16 +5,14 @@ import {URL} from "../../utils/constants";
 export const editPost = createAsyncThunk(
     'editPost/getPost',
     async (arg, {getState, extra}) => {
-        return axios.get(`${URL}/user-posts/${arg}`)
-            .then(response => response.data);
+        return axios.get(`${URL}/user-posts/${arg}`);
     }
 );
 
 export const saveTagName = createAsyncThunk(
     'editPost/saveTagName',
     async (arg, {getState, extra}) => {
-        return axios.post(`${URL}/face-recognition/tag-name/${arg.id}/`, arg.data)
-            .then(response => response.data);
+        return axios.put(`${URL}/face-recognition/tag-name/${arg.id}/`, arg.data);
     }
 );
 
@@ -27,7 +25,11 @@ const initialState = {
 const editPostSlice = createSlice({
     name: 'editPost',
     initialState,
-    reducers: {},
+    reducers: {
+        resetPost: (state, action) => {
+            state.post = null;
+        }
+    },
     extraReducers: {
         [editPost.fulfilled]: (state, action) => {
             state.status = 'success';
@@ -56,5 +58,7 @@ const editPostSlice = createSlice({
         }
     }
 });
+
+export const {resetPost} = editPostSlice.actions;
 
 export default editPostSlice.reducer;

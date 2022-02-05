@@ -17,7 +17,7 @@ const TagNameForm = ({id, tagName}) => {
         reset({
             tag_name: tagName
         });
-    }, [reset, tagName])
+    }, [reset, tagName,id])
 
 
     return (

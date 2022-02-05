@@ -10,6 +10,14 @@ axios.interceptors.request.use(function (config) {
     }
     return config;
 }, function (error) {
-    // Do something with request error
+    return Promise.reject(error);
+});
+
+axios.interceptors.response.use(function (response) {
+    if (response && response.data) {
+        return response.data
+    }
+    return response;
+}, function (error) {
     return Promise.reject(error);
 });
