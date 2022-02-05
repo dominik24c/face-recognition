@@ -13,7 +13,7 @@ class PostSerializer(serializers.ModelSerializer):
         }
 
 
-class PostWithRecognizedFaces(PostSerializer):
+class PostWithRecognizedFacesSerializer(PostSerializer):
     recognized_faces = RecognizedFaceSerializer(many=True)
 
     class Meta:

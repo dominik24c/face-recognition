@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from face_recognition.azure_face_api import fetch_recognized_faces_by_face_api_client
 from face_recognition.utils import save_recognized_faces_to_db
 from .models import Post
-from .serializers import PostSerializer, PostWithRecognizedFaces
+from .serializers import PostSerializer, PostWithRecognizedFacesSerializer
 
 
 def get_posts(queryset) -> Response:
@@ -30,6 +30,7 @@ def posts_view(request: Request) -> Response:
             post = serializer.save(owner=request.user)
             image_url = f'{settings.MEDIA_URL}{post.post_picture}'
             pprint(image_url)
+
             recognized_faces = fetch_recognized_faces_by_face_api_client(image_url)
             pprint(recognized_faces)
             save_recognized_faces_to_db(recognized_faces, post)
@@ -38,6 +39,16 @@ def posts_view(request: Request) -> Response:
             return Response({"message": "Post was created!"}, status=status.HTTP_201_CREATED)
         else:
             return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def post_detail_view(request: Request, id: int) -> Response:
+    if request.method == 'GET':
+        queryset = Post.objects.prefetch_related('recognized_faces').filter(id=id).first()
+        pprint(queryset)
+        serializer = PostWithRecognizedFacesSerializer(queryset)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -52,5 +63,5 @@ def user_posts_view(request: Request) -> Response:
 def user_post_edit_view(request: Request, id: int) -> Response:
     if request.method == 'GET':
         post = Post.objects.get(id=id)
-        serializer = PostWithRecognizedFaces(post)
+        serializer = PostWithRecognizedFacesSerializer(post)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

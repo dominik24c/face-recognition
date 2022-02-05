@@ -11,10 +11,10 @@ from .models import RecognizedFace
 from .serializers import RecognizedFaceSerializer
 
 
-@api_view(['POST'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def add_tag_name_view(request: Request, id) -> Response:
-    if request.method == 'POST':
+def add_tag_name_view(request: Request, id: int) -> Response:
+    if request.method == 'PUT':
         print(request.data)
         serializer = RecognizedFaceSerializer(data=request.data)
         if serializer.is_valid():
